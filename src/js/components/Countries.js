@@ -6,8 +6,7 @@ class Country extends Component {
 
     renderCountries() {
 
-        let id = 0,
-            currentdate = new Date();
+        let id = 0;
 
         if(this.props.search.length==0) {
             return (
@@ -55,9 +54,6 @@ class Country extends Component {
                         <div>
                             Timezones: {timezones.toString()}
                         </div>
-                        <div>
-                            Current time:
-                        </div>
                     </Col>
                 );
 
@@ -67,6 +63,7 @@ class Country extends Component {
 
 
     render() {
+
         if (!this.props.search) {
 
             return (<div id="country-list"></div>);
