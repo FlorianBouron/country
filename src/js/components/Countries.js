@@ -4,14 +4,10 @@ import {Row, Col} from 'react-bootstrap';
 
 class Country extends Component {
 
-
     renderCountries() {
 
         let id = 0,
-            languages,
-            currency,
-            capitalCity,
-            timezones;
+            currentdate = new Date();
 
         if(this.props.search.length==0) {
             return (
@@ -35,7 +31,7 @@ class Country extends Component {
                 });
 
                 country.currencies.forEach(function(currency) {
-                    currencies.push(currency.name + "(" + currency.symbol + ")");
+                    currencies.push(currency.name + " (" + currency.symbol + ")");
                 });
 
                 country.timezones.forEach(function(timezone) {
@@ -43,10 +39,10 @@ class Country extends Component {
                 });
 
                 return (
-                    <Col key={id} xs={12} sm={6} md={3} lg={3}>
-                        <h2>
+                    <Col key={id} xs={12} sm={12} md={12} lg={12}>
+                        <h3>
                             {name}
-                        </h2>
+                        </h3>
                         <div>
                             Capital City: {capitalCity}
                         </div>
@@ -57,7 +53,10 @@ class Country extends Component {
                             Currencies: {currencies.toString()}
                         </div>
                         <div>
-                            Timezone: {timezones.toString()}
+                            Timezones: {timezones.toString()}
+                        </div>
+                        <div>
+                            Current time:
                         </div>
                     </Col>
                 );
@@ -70,12 +69,12 @@ class Country extends Component {
     render() {
         if (!this.props.search) {
 
-            return (<div id="album-list"></div>);
+            return (<div id="country-list"></div>);
 
         } else {
 
             return (
-                <Row id="album-list" className="show-grid">
+                <Row id="country-list" className="show-grid">
                     <h2>Countries: </h2>
                     {this.renderCountries()}
                 </Row>
