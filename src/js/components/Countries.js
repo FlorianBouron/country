@@ -6,59 +6,71 @@ class Country extends Component {
 
     renderCountries() {
 
+        const currentDate = new Date(),
+              currentHoursUTC = parseInt(currentDate.getUTCHours()),
+              currentMinutesUTC = parseInt(currentDate.getUTCMinutes());
+
         let id = 0;
 
-        if(this.props.search.length==0) {
-            return (
-                <h4>
-                    No countries found.
-                </h4>
-            );
-        } else {
-            return this.props.search.map((country) => {
+        return this.props.search.map((country) => {
 
-                id = id+1;
+            id = id+1;
 
-                const name = country.name,
-                      capitalCity = country.capital;
-                let languages = [],
-                    currencies = [],
-                    timezones = [];
+            const name = country.name,
+                  capitalCity = country.capital;
+            let languages = [],
+                currencies = [],
+                timezones = [],
+                timesInTheCountry = [];
 
-                country.languages.forEach(function(language) {
-                    languages.push(language.name);
-                });
+            country.languages.forEach(function(language) {
+                languages.push(language.name);
+            });
 
-                country.currencies.forEach(function(currency) {
-                    currencies.push(currency.name + " (" + currency.symbol + ")");
-                });
+            country.currencies.forEach(function(currency) {
+                currencies.push(currency.name + " (" + currency.symbol + ")");
+            });
 
-                country.timezones.forEach(function(timezone) {
-                    timezones.push(timezone);
-                });
+            country.timezones.forEach(function(timezone) {
+                timezones.push(timezone);
 
-                return (
-                    <Col key={id} xs={12} sm={12} md={12} lg={12}>
-                        <h3>
-                            {name}
-                        </h3>
-                        <div>
-                            Capital City: {capitalCity}
-                        </div>
-                        <div>
-                            Languages: {languages.toString()}
-                        </div>
-                        <div>
-                            Currencies: {currencies.toString()}
-                        </div>
-                        <div>
-                            Timezones: {timezones.toString()}
-                        </div>
-                    </Col>
-                );
+                if(timezone=="UTC"){
+                    timesInTheCountry.push(currentHoursUTC+":"+currentMinutesUTC);
+                } else {
+                    const hourTimeZone = parseInt(timezone.replace("UTC", "").split(":")[0]),
+                        minuteTimeZone = parseInt(timezone.replace("UTC", "").split(":")[1]),
+                        hourInTheCountry = currentHoursUTC + hourTimeZone,
+                        minuteInTheCountry = currentMinutesUTC + minuteTimeZone;
+                    timesInTheCountry.push(hourInTheCountry+":"+minuteInTheCountry);
+                }
 
             });
-        }
+
+            return (
+                <Col key={id} xs={12} sm={12} md={12} lg={12}>
+                    <h3>
+                        {name}
+                    </h3>
+                    <div>
+                        Capital City: {capitalCity}
+                    </div>
+                    <div>
+                        Languages: {languages.toString()}
+                    </div>
+                    <div>
+                        Currencies: {currencies.toString()}
+                    </div>
+                    <div>
+                        Timezones: {timezones.toString()}
+                    </div>
+                    <div>
+                        Current Time in the country: {timesInTheCountry.toString()}
+                    </div>
+                </Col>
+            );
+
+        });
+
     }
 
 
